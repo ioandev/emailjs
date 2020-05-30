@@ -1,10 +1,11 @@
 import {
-  emailSender3
+  sendEmail
 } from './emailSender'
 
 import dotenv from "dotenv"
 dotenv.config()
 import amqp from "amqplib"
+import sleep from 'await-sleep'
 
 // RabbitMQ connection string
 const messageQueueConnectionString = process.env.CLOUDAMQP_URL;
@@ -69,7 +70,7 @@ function consume({
       let processingResults = {}
       try{
         console.log("Processing: ", requestData)
-        processingResults = await emailSender3(requestData)
+        processingResults = await sendEmail(requestData)
       }catch (err){
         console.log("Failed processing: ", requestData)
         throw err
@@ -88,6 +89,8 @@ function consume({
 
       // acknowledge message as processed successfully
       await channel.ack(msg);
+
+      await sleep(5 * 1000);
     });
 
     // handle connection closed
@@ -111,4 +114,5 @@ function processMessage(requestData) {
   });
 }
 
-listenForMessages();
+listenForMessages()
+console.log("Listening.")
