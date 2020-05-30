@@ -1,5 +1,5 @@
 
-import accounts from "../env.accounts"
+import accounts from "../../env.accounts"
 import nodemailer from "nodemailer"
 
 function getAccountDetailsByEmail(email) {

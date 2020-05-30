@@ -5,8 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "setup": "cross-env DEBUG=true babel-node ./src/setup-once.js",
-    "web": "cross-env DEBUG=true babel-node ./src/web.js",
-    "processor": "cross-env DEBUG=true babel-node ./src/processor.js",
+    "web": "cross-env DEBUG=true babel-node ./src/web/index.js",
+    "processor": "cross-env DEBUG=true babel-node ./src/processor/index.js",
     "test": "jest"
   },
   "keywords": [

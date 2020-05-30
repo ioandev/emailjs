@@ -29,7 +29,7 @@ async function listenForMessages() {
     connection,
     channel,
     resultsChannel
-  }).catch(err => console.error(err));
+  })
 }
 
 // consume messages from RabbitMQ
@@ -40,13 +40,7 @@ function consume({
 }) {
   return new Promise((resolve, reject) => {
     channel.consume("processing.requests", async function (msg) {
-      something(msg, channel, resultsChannel).then(() => {
-        resolve()
-      }).catch((err) => {
-        console.error("An error has occured processing this message..")
-        console.error(err)
-        reject(err)
-      })
+      something(msg, channel, resultsChannel).then(resolve).catch(reject)
     });
 
     // handle connection closed
