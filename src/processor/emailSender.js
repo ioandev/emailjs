@@ -1,28 +1,26 @@
-
 import accounts from "../../env.accounts"
 import nodemailer from "nodemailer"
+
+async function sendEmail(mail) {
+    let account = getAccountDetailsByEmail(mail.from)
+    mail.from = account.meta.from
+    let transporter = nodemailer.createTransport(account.transport)
+    let info = await transporter.sendMail(mail)
+    console.log("Email sent: %s", info.messageId);
+    return {
+        info
+    }
+}
 
 function getAccountDetailsByEmail(email) {
     let account = accounts().accounts.filter(function (account) {
         return account.transport.auth.user === email;
     })[0] || null;
-    return account
-}
-
-async function sendEmail(mail) {
-    let account = getAccountDetailsByEmail(mail.from)
+    
     if (account == null) {
-        throw `Account couldn't be found for X`
+        throw `Account couldn't be found for ${mail.from}`
     }
-    mail.from = account.meta.from
-    let transport = account.transport
-
-    let transporter = nodemailer.createTransport(transport)
-    let info = await transporter.sendMail(mail)
-    console.log("Message sent: %s", info.messageId);
-    return {
-        info
-    }
+    return account
 }
 
 export {
