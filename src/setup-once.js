@@ -3,7 +3,7 @@ dotenv.config()
 
 import amqp from "amqplib"
 // RabbitMQ connection string
-const messageQueueConnectionString = process.env.CLOUDAMQP_URL;
+const messageQueueConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
 
 async function setup() {
   console.log("Setting up RabbitMQ Exchanges/Queues");

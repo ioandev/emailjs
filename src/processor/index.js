@@ -8,7 +8,7 @@ import amqp from "amqplib"
 import sleep from 'await-sleep'
 
 // RabbitMQ connection string
-const messageQueueConnectionString = process.env.CLOUDAMQP_URL;
+const messageQueueConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
 if (messageQueueConnectionString == null) {
   throw "No rabbitmq url was found"
 }

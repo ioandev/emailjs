@@ -4,7 +4,7 @@ Simple service for sending e-mails with a POST call, using fastify and rabbitmq
 
 Example request:
 
-> URL: `http://localhost:3000/api/email/`
+> URL: `http://localhost:4123/api/email/`
 > 
 > CONTENT-TYPE: application/json
 > 
@@ -29,7 +29,7 @@ Example request:
 ## To run:
 1. Run `npm run web`
 2. Run `npm run processor`
-3. Visit http://localhost:3000/swagger/ to send an e-mail
+3. Visit http://localhost:4123/swagger/ to send an e-mail
 
 ## Credits
 

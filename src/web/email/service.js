@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 dotenv.config()
 import amqp from "amqplib"
 // RabbitMQ connection string
-const messageQueueConnectionString = process.env.CLOUDAMQP_URL;
+const messageQueueConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
 if (messageQueueConnectionString == null) {
   throw "No rabbitmq url was found";
 }
