@@ -1,9 +1,9 @@
 'use strict'
 
-const tweet = {
+const email = {
     body: {
         type: 'object',
-        required: ['from', 'to', 'subject', 'text', 'html'],
+        required: ['from', 'to', 'subject', 'text'],
         properties: {
             from: {
                 type: 'string',
@@ -29,7 +29,4 @@ const tweet = {
         additionalProperties: false
     }
 }
-
-module.exports = {
-    tweet
-}
+export {email}
