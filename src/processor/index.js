@@ -1,11 +1,22 @@
+if (process.env.EMAIL_ENV == null) {
+  throw "process.env.EMAIL_ENV could not be found"
+}
+
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config({
+  path: path.resolve(process.cwd(), process.env.EMAIL_ENV == 'prod' ? '.env' : ('.env.' + process.env.EMAIL_ENV))
+})
+
+import amqp from "amqplib"
+import sleep from 'await-sleep'
 import {
   sendEmail
 } from './emailSender'
 
-import dotenv from "dotenv"
-dotenv.config()
-import amqp from "amqplib"
-import sleep from 'await-sleep'
+if (process.env.EMAIL_ENV == null) {
+  throw "process.env.EMAIL_ENV could not be found"
+}
 
 // RabbitMQ connection string
 const messageQueueConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
@@ -23,13 +34,14 @@ async function listenForMessages() {
 
   // create a second channel to send back the results
   let resultsChannel = await connection.createConfirmChannel();
-
+  console.log("Consuming messages..")
   // start consuming messages
   await consume({
     connection,
     channel,
     resultsChannel
   })
+  console.log("Consuming messages finished.")
 }
 
 // consume messages from RabbitMQ
@@ -39,8 +51,9 @@ function consume({
   resultsChannel
 }) {
   return new Promise((resolve, reject) => {
-    channel.consume("processing.requests", async function (msg) {
-      something(msg, channel, resultsChannel).then(resolve).catch(reject)
+    let prefix = `newsletter.${process.env.EMAIL_ENV}.`
+    channel.consume(prefix + "processing.requests", async function (msg) {
+      consumeMessage(msg, channel, resultsChannel).then(resolve).catch(reject)
     });
 
     // handle connection closed
@@ -55,7 +68,7 @@ function consume({
   });
 }
 
-async function something(msg, channel, resultsChannel) { // parse message
+async function consumeMessage(msg, channel, resultsChannel) {
   let msgBody = msg.content.toString();
   let data = JSON.parse(msgBody);
   let requestId = data.requestId;
@@ -75,10 +88,11 @@ async function something(msg, channel, resultsChannel) { // parse message
     return
   }
 
+  let prefix = `newsletter.${process.env.EMAIL_ENV}.`
   // publish results to channel
   await publishToChannel(resultsChannel, {
-    exchangeName: "processing",
-    routingKey: "result",
+    exchangeName: prefix + "processing",
+    routingKey: prefix + "result",
     data: {
       requestId,
       processingResults
@@ -121,4 +135,3 @@ listenForMessages().catch(err => {
   console.error(err)
   process.exit(1);
 });
-console.log("Listening for emails to process...")

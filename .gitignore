@@ -90,3 +90,5 @@ sw.*
 *.swp
 /env.accounts.js
 /.vscode/settings.json
+/.env.dev
+/.env.test

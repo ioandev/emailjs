@@ -4,9 +4,12 @@
   "description": "Email service",
   "main": "src/main.js",
   "scripts": {
-    "setup": "cross-env DEBUG=true babel-node ./src/setup-once.js",
-    "web": "cross-env DEBUG=true babel-node ./src/web/index.js",
-    "processor": "cross-env DEBUG=true babel-node ./src/processor/index.js",
+    "setup-prod": "cross-env EMAIL_ENV=prod babel-node ./src/setup-once.js",
+    "setup-dev": "cross-env DEBUG=true EMAIL_ENV=dev babel-node ./src/setup-once.js",
+    "web-prod": "cross-env EMAIL_ENV=prod babel-node ./src/web/index.js",
+    "web-dev": "cross-env DEBUG=true EMAIL_ENV=dev babel-node ./src/web/index.js",
+    "processor-prod": "cross-env EMAIL_ENV=prod babel-node ./src/processor/index.js",
+    "processor-dev": "cross-env DEBUG=true EMAIL_ENV=dev babel-node ./src/processor/index.js",
     "test": "jest"
   },
   "keywords": [

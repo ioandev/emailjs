@@ -1,5 +1,12 @@
-import dotenv from "dotenv"
-dotenv.config()
+if (process.env.EMAIL_ENV == null) {
+    throw "process.env.EMAIL_ENV could not be found"
+}
+
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config({
+    path: path.resolve(process.cwd(), process.env.EMAIL_ENV == 'prod' ? '.env' : ('.env.' + process.env.EMAIL_ENV))
+})
 
 import fastify from 'fastify'
 import fastifyInitialiser from './fastifyInitialiser'

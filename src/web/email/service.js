@@ -24,10 +24,13 @@ class EmailService {
     let connection = await amqp.connect(messageQueueConnectionString);
     let channel = await connection.createConfirmChannel();
 
+    let prefix = `newsletter.${process.env.EMAIL_ENV}.`
+    console.log(channel)
+    console.log(prefix)
     // publish the data to Rabbit MQ
     await publishToChannel(channel, {
-      routingKey: "request",
-      exchangeName: "processing",
+      routingKey: prefix+"request",
+      exchangeName: prefix+"processing",
       data: {
         requestId,
         requestData,

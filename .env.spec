@@ -1,3 +1,4 @@
 RABBITMQ_CONNECTION_STRING=amqp://username:password@host/vhost
 HOSTNAME=127.0.0.1
 PORT=4123
+EMAIL_ENV=prod

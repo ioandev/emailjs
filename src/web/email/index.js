@@ -9,7 +9,6 @@ import service from './service'
 var emailService = new service()
 
 module.exports = async function (fastify, opts) {
-    // All APIs are under authentication here!
     fastify.post('/', {
         schema: mailSchema
     }, addEmailToQueue)
