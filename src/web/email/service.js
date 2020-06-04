@@ -25,8 +25,6 @@ class EmailService {
     let channel = await connection.createConfirmChannel();
 
     let prefix = `newsletter.${process.env.EMAIL_ENV}.`
-    console.log(channel)
-    console.log(prefix)
     // publish the data to Rabbit MQ
     await publishToChannel(channel, {
       routingKey: prefix+"request",
